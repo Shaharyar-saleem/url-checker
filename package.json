@@ -4,7 +4,7 @@
   "description": "Brower App checks URL entered exists on server or not (MOCK)",
   "main": "index.html",
   "scripts": {
-    "deploy": "surge --project ./ --domain url-checker.surge.sh"
+    "deploy": "surge --project ./ --domain https://url-checker.surge.sh/"
   },
   "repository": {
     "type": "git",
