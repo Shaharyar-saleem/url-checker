@@ -1,0 +1,19 @@
+{
+  "name": "url-checker",
+  "version": "1.0.0",
+  "description": "Brower App checks URL entered exists on server or not (MOCK)",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "surge --project ./ --domain url-checker.surge.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shaharyar-saleem/url-checker.git"
+  },
+  "author": "Shaharyar Saleem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shaharyar-saleem/url-checker/issues"
+  },
+  "homepage": "https://github.com/Shaharyar-saleem/url-checker#readme"
+}

@@ -1,3 +1,6 @@
+const enteredUrl = document.getElementById("url");
+const result = document.getElementById("output");
+
 // Mock function to check URL existence on server
 const checkUrlExistence = (url) => {
   return new Promise((resolve) => {
@@ -9,6 +12,7 @@ const checkUrlExistence = (url) => {
   });
 };
 
+// Throttle function for limit the server requests
 const throttle = (func, delay) => {
   let timer;
   return function (...rest) {
@@ -20,9 +24,6 @@ const throttle = (func, delay) => {
     }
   };
 };
-
-const enteredUrl = document.getElementById("url");
-const result = document.getElementById("output");
 
 // Function to update result
 const updateResult = (isExistingAtServer) => {
