@@ -1,62 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>URL Checker</title>
+    <title>Check URL</title>
   </head>
   <body>
     <div>
-      <input type="text" id="urlInput" placeholder="Enter URL" />
-      <div id="result"></div>
+      <input type="text" id="url" placeholder="enter or type URL" />
+      <p id="output"></p>
     </div>
-    <script>
-      // Mock server function to check URL existence (simulated async)
-      function checkUrlExistence(url) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            // Simulate server response (true for existence, false for non-existence)
-            const exists = url.includes(["google.com", "facebook.com"]);
-            resolve(exists);
-          }, 1000); // Simulated async delay
-        });
-      }
-
-      // Throttle function to limit server requests
-      function throttle(func, delay) {
-        let timeout;
-        return function (...args) {
-          if (!timeout) {
-            timeout = setTimeout(() => {
-              func(...args);
-              timeout = null;
-            }, delay);
-          }
-        };
-      }
-
-      // Get DOM elements
-      const urlInput = document.getElementById("urlInput");
-      const resultDiv = document.getElementById("result");
-
-      // Function to update result
-      function updateResult(exists) {
-        resultDiv.textContent = exists
-          ? "URL exists."
-          : "URL does not exist.";
-      }
-
-      // Throttled URL existence check
-      const throttledCheck = throttle(async () => {
-        const url = urlInput.value;
-        if (url) {
-          const exists = await checkUrlExistence(url);
-          updateResult(exists);
-        } else {
-          resultDiv.textContent = ""; // Clear result if input is empty
-        }
-      }, 2000); // Adjust the throttle delay (e.g., 2000 ms) as needed
-
-      // Attach an input event listener
-      urlInput.addEventListener("input", throttledCheck);
-    </script>
   </body>
 </html>
