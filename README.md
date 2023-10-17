@@ -21,12 +21,15 @@ This is a simple browser application that allows users to check if a given URL e
 The application uses a mock function to check the existence of URLs. The `checkUrlExistence` function checks the existence of a URL and returns `true` for URLs containing "google.com" and `false` for others. This function is for demonstration purposes; you can replace it with actual server requests.
 
 ```javascript
-const checkUrlExistence = (url) => {
+const checkUrlExistenceAndType = (url, timestamp) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Mock server response (true for exist, false for non-existence)
-      const isExistingAtServer = url.includes("google.com");
-      resolve(isExistingAtServer);
+      if (timestamp >= lastInputTimestamp) {
+        // Mock server response (true for exist, false for non-existence, type based on URL)
+        const isExistingAtServer = url.includes("google.com");
+        const isFolder = url.endsWith("/");
+        resolve({ exists: isExistingAtServer, isFolder });
+      }
     }, 1200);
   });
 };
