@@ -1,5 +1,6 @@
 const enteredUrl = document.getElementById("url");
 const result = document.getElementById("output");
+let lastInputTimestamp = 0; // Initialize the last input timestamp
 
 // Function to check if a URL has a valid format
 function isValidURL(url) {
@@ -9,14 +10,15 @@ function isValidURL(url) {
 }
 
 // Mock server function to check URL existence and type (simulated async)
-const checkUrlExistenceAndType = (url) => {
+const checkUrlExistenceAndType = (url, timestamp) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Mock server response (true for exist, false for non-existence, type based on URL)
-      const isExistingAtServer = url.includes("google.com");
-      const isFolder = url.endsWith("/");
-      console.log(isFolder);
-      resolve({ exists: isExistingAtServer, isFolder });
+      if (timestamp >= lastInputTimestamp) {
+        // Mock server response (true for exist, false for non-existence, type based on URL)
+        const isExistingAtServer = url.includes("google.com");
+        const isFolder = url.endsWith("/");
+        resolve({ exists: isExistingAtServer, isFolder });
+      }
     }, 1200);
   });
 };
@@ -54,7 +56,11 @@ const throttledCheck = throttle(async () => {
       return;
     }
 
-    const { exists, isFolder } = await checkUrlExistenceAndType(url);
+    lastInputTimestamp = Date.now();
+    const { exists, isFolder } = await checkUrlExistenceAndType(
+      url,
+      lastInputTimestamp
+    );
     updateResult(exists, isFolder);
   } else {
     result.textContent = "";
