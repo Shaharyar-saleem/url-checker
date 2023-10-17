@@ -1,18 +1,27 @@
 const enteredUrl = document.getElementById("url");
 const result = document.getElementById("output");
 
-// Mock function to check URL existence on server
-const checkUrlExistence = (url) => {
+// Function to check if a URL has a valid format
+function isValidURL(url) {
+  const pattern =
+    /^(https?:\/\/)?([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+(:\d{2,5})?(\/\S*)?$/;
+  return pattern.test(url);
+}
+
+// Mock server function to check URL existence and type (simulated async)
+const checkUrlExistenceAndType = (url) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Mock server response true for exist false for non existence
+      // Mock server response (true for exist, false for non-existence, type based on URL)
       const isExistingAtServer = url.includes("google.com");
-      resolve(isExistingAtServer);
+      const isFolder = url.endsWith("/");
+      console.log(isFolder);
+      resolve({ exists: isExistingAtServer, isFolder });
     }, 1200);
   });
 };
 
-// Throttle function for limit the server requests
+// Throttle function for limiting server requests
 const throttle = (func, delay) => {
   let timer;
   return function (...rest) {
@@ -26,18 +35,27 @@ const throttle = (func, delay) => {
 };
 
 // Function to update result
-const updateResult = (isExistingAtServer) => {
-  result.textContent = isExistingAtServer
-    ? "URL exists in Server"
-    : "URL does not exists in Server";
+const updateResult = (exists, isFolder) => {
+  if (exists) {
+    result.textContent = isFolder
+      ? "URL exists and is a folder."
+      : "URL exists and is a file.";
+  } else {
+    result.textContent = "URL does not exist.";
+  }
 };
 
 // Throttled URL existence check
 const throttledCheck = throttle(async () => {
   const url = enteredUrl.value;
   if (url) {
-    const isExistingAtServer = await checkUrlExistence(url);
-    updateResult(isExistingAtServer);
+    if (!isValidURL(url)) {
+      result.textContent = "Invalid URL format.";
+      return;
+    }
+
+    const { exists, isFolder } = await checkUrlExistenceAndType(url);
+    updateResult(exists, isFolder);
   } else {
     result.textContent = "";
   }
